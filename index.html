@@ -1,111 +1,413 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>67</title>
+    <title>CXJ_GG | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --bg-color: #0a0a0a;
-            --text-color: #ffffff;
-            --accent-color: #ff0000;
+            --accent: #ffffff;
+            --bg: #000000;
+            --surface: rgba(20, 20, 20, 0.6);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-main: #e4e4e7;
+            --text-muted: #a1a1aa;
+            --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Impact', 'Arial Black', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; /* Evita scroll para focar na experiência */
+            min-height: 100vh;
+        }
+
+        /* --- FUNDO DE MANCHAS ORGÂNICAS (TIPO AURORA/GASOSA) --- */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #000;
+            overflow: hidden;
+        }
+
+        /* As manchas agora são filtros SVG para parecerem fumaça/gasosa */
+        .blob {
+            position: absolute;
+            background: white;
+            filter: blur(80px);
+            border-radius: 50%;
+            opacity: 0.15;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            animation: drift linear infinite;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(10vw, 20vh) scale(1.2); }
+            66% { transform: translate(-10vw, 10vh) scale(0.8); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        .main-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        nav {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            padding: 2rem 0;
+            animation: fadeIn 1.2s ease;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
+            animation: fadeInUp 1.2s ease;
         }
 
-        .container {
-            position: relative;
+        .nick-trigger {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.05em;
+            color: var(--text-main);
             cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            position: relative;
             user-select: none;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
         }
 
-        .number {
-            font-size: 20rem;
-            line-height: 1;
-            transition: transform 0.1s ease-out;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.2));
+        .nick-trigger:hover {
+            transform: scale(1.02);
+            text-shadow: 0 0 40px rgba(255,255,255,0.3);
+            color: #fff;
         }
 
-        .number:active {
-            transform: scale(0.9);
-            color: var(--accent-color);
-        }
-
-        .subtext {
-            font-family: sans-serif;
+        .hero p {
             font-size: 1.2rem;
-            opacity: 0.5;
-            margin-top: 20px;
-            letter-spacing: 2px;
+            color: var(--text-muted);
+            max-width: 550px;
+            margin-bottom: 4rem;
+            font-weight: 300;
+            line-height: 1.8;
+            opacity: 0.8;
+        }
+
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .social-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            width: 110px;
+            height: 110px;
+            border-radius: 24px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .social-card:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .social-card i, .social-card img {
+            font-size: 1.8rem;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .social-card img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .social-card:hover i, .social-card:hover img {
+            opacity: 1;
+            transform: scale(1.15);
+        }
+
+        .social-card strong {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
+            color: var(--text-muted);
         }
 
-        .floating {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0;
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 300;
+            opacity: 0.4;
+            transition: var(--transition);
+        }
+
+        .email-contact {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.6;
+            font-weight: 300;
+            backdrop-filter: blur(5px);
+            padding: 8px 12px;
+            border-radius: 100px;
+            border: 1px solid transparent;
+        }
+
+        .email-contact:hover {
+            opacity: 1;
+            color: var(--text-main);
+            border-color: var(--border);
+            background: var(--surface);
+            transform: translateY(-2px);
+        }
+
+        .mc-particle {
+            position: fixed;
+            width: 24px;
+            height: 24px;
             pointer-events: none;
-            animation: floatUp 1s forwards ease-out;
+            z-index: 100;
+            animation: particleFall 1.5s forwards cubic-bezier(0, .5, .5, 1);
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+        .mc-particle img {
+            width: 100%;
+            height: 100%;
+            filter: grayscale(1) brightness(2);
+            opacity: 0.8;
+        }
+
+        @keyframes particleFall {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) rotate(360deg) scale(0); opacity: 0; }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .social-grid {
+                grid-template-columns: repeat(3, 1fr);
+                display: grid;
+                gap: 1rem;
+            }
+            .social-card { width: auto; }
+            .email-contact {
+                bottom: 20px;
+                right: 20px;
+                font-size: 0.65rem;
+            }
         }
     </style>
 </head>
 <body>
+    <a href="mailto:cxjggcontatopessoal@cmail.asia" class="email-contact">
+        <i class="far fa-envelope"></i>
+        <span>cxjggcontatopessoal@cmail.asia</span>
+    </a>
 
-    <div class="container" id="mainContainer">
-        <div class="number" id="mainNumber">67</div>
-        <div class="subtext">The number. The legend. 67.</div>
+    <div class="bg-container" id="bg-container">
+        <!-- As manchas serão geradas via JS -->
+    </div>
+
+    <div class="main-wrapper">
+        <nav></nav>
+
+        <section class="hero">
+            <h1 class="nick-trigger" onclick="triggerEasterEgg(event)">CXJ_GG</h1>
+            <p>
+                Jogador de Minecraft e Roblox.
+                Sempre em busca de novos desafios nos jogos e disponível para contato através do Discord.
+            </p>
+
+            <div class="social-grid">
+                <a href="https://www.twitch.tv/cxj_yt" target="_blank" class="social-card" onmouseenter="playHoverSound()" onclick="playClickSound(event)">
+                    <i class="fab fa-twitch"></i>
+                    <strong>Twitch</strong>
+                </a>
+                <a href="https://www.roblox.com/pt/users/11397494881/profile" target="_blank" class="social-card" onmouseenter="playHoverSound()" onclick="playClickSound(event)">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg" alt="Roblox">
+                    <strong>Roblox</strong>
+                </a>
+                <a href="https://discord.gg/Sjm3qtY8Eq" target="_blank" class="social-card" onmouseenter="playHoverSound()" onclick="playClickSound(event)">
+                    <i class="fab fa-discord"></i>
+                    <strong>Discord</strong>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            &copy; 2026 CXJ_GG — Todos os direitos reservados.
+        </footer>
     </div>
 
     <script>
-        const container = document.getElementById('mainContainer');
-        const number = document.getElementById('mainNumber');
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        container.addEventListener('mousedown', (e) => {
-            const floating = document.createElement('div');
-            floating.className = 'floating';
-            floating.innerText = '67';
-            floating.style.left = (e.clientX - 20) + 'px';
-            floating.style.top = (e.clientY - 20) + 'px';
-            floating.style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
-            document.body.appendChild(floating);
+        /* --- GERAÇÃO DE MANCHAS GASOSAS (ESTILO NEBULA/AURORA) --- */
+        function createAtmosphericBackground() {
+            const container = document.getElementById('bg-container');
+            const blobCount = 15;
 
-            setTimeout(() => floating.remove(), 1000);
+            for (let i = 0; i < blobCount; i++) {
+                const blob = document.createElement('div');
+                blob.className = 'blob';
 
-            const shake = (Math.random() - 0.5) * 20;
-            number.style.transform = `translateX(${shake}px)`;
-            setTimeout(() => number.style.transform = 'translateX(0)', 50);
-        });
+                // Tamanhos massivos para criar a sensação de "mancha" e não "bola"
+                const size = Math.random() * 800 + 400;
+                blob.style.width = size + 'px';
+                blob.style.height = size + 'px';
 
-        let buffer = "";
-        window.addEventListener('keydown', (e) => {
-            buffer += e.key;
-            if (buffer.endsWith("67")) {
-                document.body.style.backgroundColor = 'white';
-                document.body.style.color = 'black';
-                setTimeout(() => {
-                    document.body.style.backgroundColor = '#0a0a0a';
-                    document.body.style.color = 'white';
-                }, 100);
-                buffer = "";
+                // Posições espalhadas além da tela para criar movimento fluido
+                blob.style.top = (Math.random() * 120 - 20) + '%';
+                blob.style.left = (Math.random() * 120 - 20) + '%';
+
+                // Cores variando entre branco, cinza claro e cinza escuro
+                const gray = Math.floor(Math.random() * 150 + 100);
+                blob.style.background = `radial-gradient(circle, rgba(${gray},${gray},${gray},0.12) 0%, transparent 70%)`;
+
+                // Movimento lento e orgânico
+                const duration = 20 + Math.random() * 30;
+                blob.style.animationDuration = duration + 's';
+                blob.style.animationDelay = (Math.random() * -40) + 's';
+
+                container.appendChild(blob);
             }
-            if (buffer.length > 10) buffer = buffer.substring(1);
-        });
+        }
+
+        function playHoverSound() {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(330, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.1);
+            gain.gain.setValueAtTime(0, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.03, audioCtx.currentTime + 0.01);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.2);
+        }
+
+        function playClickSound(e) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function triggerEasterEgg(e) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.2);
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.3);
+
+            const x = e.clientX;
+            const y = e.clientY;
+
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'mc-particle';
+                const img = document.createElement('img');
+                img.src = "https://upload.wikimedia.org/wikipedia/en/5/51/Minecraft_cube.png";
+                img.style.width = "100%";
+                img.style.height = "100%";
+                particle.appendChild(img);
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                const tx = (Math.random() - 0.5) * 400 + 'px';
+                const ty = (Math.random() - 0.5) * 400 + 'px';
+                particle.style.setProperty('--tx', tx);
+                particle.style.setProperty('--ty', ty);
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1500);
+            }
+        }
+
+        window.addEventListener('click', () => {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }, { once: true });
+
+        createAtmosphericBackground();
     </script>
 </body>
 </html>
