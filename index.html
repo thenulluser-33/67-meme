@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>67</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #ffffff;
+            --accent-color: #ff0000;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .number {
+            font-size: 20rem;
+            line-height: 1;
+            transition: transform 0.1s ease-out;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.2));
+        }
+
+        .number:active {
+            transform: scale(0.9);
+            color: var(--accent-color);
+        }
+
+        .subtext {
+            font-family: sans-serif;
+            font-size: 1.2rem;
+            opacity: 0.5;
+            margin-top: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .floating {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0;
+            pointer-events: none;
+            animation: floatUp 1s forwards ease-out;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <div class="number" id="mainNumber">67</div>
+        <div class="subtext">The number. The legend. 67.</div>
+    </div>
+
+    <script>
+        const container = document.getElementById('mainContainer');
+        const number = document.getElementById('mainNumber');
+
+        container.addEventListener('mousedown', (e) => {
+            const floating = document.createElement('div');
+            floating.className = 'floating';
+            floating.innerText = '67';
+            floating.style.left = (e.clientX - 20) + 'px';
+            floating.style.top = (e.clientY - 20) + 'px';
+            floating.style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+            document.body.appendChild(floating);
+
+            setTimeout(() => floating.remove(), 1000);
+
+            const shake = (Math.random() - 0.5) * 20;
+            number.style.transform = `translateX(${shake}px)`;
+            setTimeout(() => number.style.transform = 'translateX(0)', 50);
+        });
+
+        let buffer = "";
+        window.addEventListener('keydown', (e) => {
+            buffer += e.key;
+            if (buffer.endsWith("67")) {
+                document.body.style.backgroundColor = 'white';
+                document.body.style.color = 'black';
+                setTimeout(() => {
+                    document.body.style.backgroundColor = '#0a0a0a';
+                    document.body.style.color = 'white';
+                }, 100);
+                buffer = "";
+            }
+            if (buffer.length > 10) buffer = buffer.substring(1);
+        });
+    </script>
+</body>
+</html>
